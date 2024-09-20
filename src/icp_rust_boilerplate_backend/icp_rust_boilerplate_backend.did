@@ -1,21 +1,14 @@
 type Error = variant { NotFound : record { msg : text } };
-type Message = record {
+type NFTCertificate = record {
   id : nat64;
-  title : text;
-  updated_at : opt nat64;
-  body : text;
+  owner : text;
+  metadata : text;
   created_at : nat64;
-  attachment_url : text;
 };
-type MessagePayload = record {
-  title : text;
-  body : text;
-  attachment_url : text;
-};
-type Result = variant { Ok : Message; Err : Error };
+type NFTPayload = record { owner : text; metadata : text };
+type Result = variant { Ok : NFTCertificate; Err : Error };
 service : {
-  add_message : (MessagePayload) -> (opt Message);
-  delete_message : (nat64) -> (Result);
-  get_message : (nat64) -> (Result) query;
-  update_message : (nat64, MessagePayload) -> (Result);
+  create_nft : (NFTPayload) -> (opt NFTCertificate);
+  delete_nft : (nat64) -> (Result);
+  get_nft : (nat64) -> (Result) query;
 }
